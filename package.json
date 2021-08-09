@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Alejogb1/fs-part3#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "http": "0.0.1-security"
   },
   "devDependencies": {

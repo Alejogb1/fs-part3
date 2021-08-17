@@ -60,21 +60,31 @@ app.use(express.json({
 }))
 
 app.post("/api/persons", (request, response) => {
-  const note = request.body
-  console.log(note)
-  response.json(note)
+  const body = request.body;
+  console.log(body)
+  const personName = body.name;
+  const personNumber = body.number;
+
+  console.log(body)
+  console.log("PERSON NAME", personName)
+
   function hasDuplicates (newElement) {
-    let object = persons.find(element => element === newElement);
+    let object = persons.find(element => element.name === newElement);
+    console.log("OBJECT ", object)
+    if (object == undefined) {
+      return false
+    }
     if (Object.keys(object).length !== 0) {
       return true
     }
     return false
   }
-  if ( note.number || note.name === "") {
-
-  } else if (hasDuplicates(note.name)) {
-
+  if ( personName === "" ) {
+    response.json({ error : "name or number is empty"})
+  } else if (hasDuplicates(personName)) {
+    response.json({ error : "name is alreaded added"})
   }
+  response.json(persons)
 })
 app.get('/info', (request, response) => {
   response.send(`Phonebook has info for ${persons.length} people ${new Date()}`)

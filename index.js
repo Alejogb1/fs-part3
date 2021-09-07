@@ -1,7 +1,6 @@
-const http = require('http')
 const express = require('express')
 const app = express()
-
+const morgan = require("morgan")
 let persons = [
     { 
       "id": 1,
@@ -25,9 +24,26 @@ let persons = [
     }
 ]
 
+
+
+
+app.get("/", (req, res) =>  {
+
+})
+app.use(morgan((tokens, req, res) => {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms',
+    JSON.stringify(req.body)
+  ].join(' ')
+}))
 app.get('/api/persons', (request, response) => {
   response.send(JSON.stringify(persons))
 })
+
 app.get('/api/persons/:id', (request, response) => {
   try {
     const id = request.params.id
@@ -51,8 +67,8 @@ app.delete('/api/persons/:id', (request, response) => {
     })
     response.status(204).end()
   } catch (error) {
-    console.log("ERRROR", error) 
-  }
+    console.log("ERROR", error) 
+}
  
 })
 app.use(express.json({
@@ -61,12 +77,9 @@ app.use(express.json({
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
-  console.log(body)
   const personName = body.name;
   const personNumber = body.number;
 
-  console.log(body)
-  console.log("PERSON NAME", personName)
 
   function hasDuplicates (newElement) {
     let object = persons.find(element => element.name === newElement);
@@ -84,7 +97,7 @@ app.post("/api/persons", (request, response) => {
   } else if (hasDuplicates(personName)) {
     response.json({ error : "name is alreaded added"})
   }
-  response.json(persons)
+  return response.send(JSON.stringify(body))
 })
 app.get('/info', (request, response) => {
   response.send(`Phonebook has info for ${persons.length} people ${new Date()}`)

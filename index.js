@@ -1,6 +1,10 @@
 const express = require('express')
 const app = express()
 const morgan = require("morgan")
+const cors = require('cors')
+
+app.use(cors())
+
 let persons = [
     { 
       "id": 1,
@@ -41,7 +45,7 @@ app.use(morgan((tokens, req, res) => {
   ].join(' ')
 }))
 app.get('/api/persons', (request, response) => {
-  response.send(JSON.stringify(persons))
+  response.send(persons)
 })
 
 app.get('/api/persons/:id', (request, response) => {

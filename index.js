@@ -6,33 +6,32 @@ const cors = require('cors')
 app.use(cors())
 
 let persons = [
-    { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": 3,
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
+  {
+    "id": 1,
+    "name": "Arto Hellas",
+    "number": "040-123456"
+  },
+  {
+    "id": 2,
+    "name": "Ada Lovelace",
+    "number": "39-44-5323523"
+  },
+  {
+    "id": 3,
+    "name": "Dan Abramov",
+    "number": "12-43-234345"
+  },
+  {
+    "id": 4,
+    "name": "Mary Poppendieck",
+    "number": "39-23-6423122"
+  }
 ]
 
 
 
 
-app.get("/", (req, res) =>  {
-
+app.get("/", (req, res) => {
 })
 app.use(morgan((tokens, req, res) => {
   return [
@@ -53,27 +52,27 @@ app.get('/api/persons/:id', (request, response) => {
     const id = request.params.id
     console.log(id)
     let person = persons.find(person => {
-      return toString(person.id) === toString(id) 
+      return toString(person.id) === toString(id)
     })
     console.log("PERSON", person)
     response.json(person)
   } catch (error) {
-    console.log("ERRROR", error) 
+    console.log("ERRROR", error)
   }
- 
+
 })
 app.delete('/api/persons/:id', (request, response) => {
   try {
     const id = request.params.id
     console.log(id)
     let person = persons.find(person => {
-      return toString(person.id) === toString(id) 
+      return toString(person.id) === toString(id)
     })
     response.status(204).end()
   } catch (error) {
-    console.log("ERROR", error) 
-}
- 
+    console.log("ERROR", error)
+  }
+
 })
 app.use(express.json({
   type: ['application/json', 'text/plain']
@@ -85,7 +84,7 @@ app.post("/api/persons", (request, response) => {
   const personNumber = body.number;
 
 
-  function hasDuplicates (newElement) {
+  function hasDuplicates(newElement) {
     let object = persons.find(element => element.name === newElement);
     console.log("OBJECT ", object)
     if (object == undefined) {
@@ -96,10 +95,10 @@ app.post("/api/persons", (request, response) => {
     }
     return false
   }
-  if ( personName === "" ) {
-    response.json({ error : "name or number is empty"})
+  if (personName === "") {
+    response.json({ error: "name or number is empty" })
   } else if (hasDuplicates(personName)) {
-    response.json({ error : "name is alreaded added"})
+    response.json({ error: "name is alreaded added" })
   }
   return response.send(JSON.stringify(body))
 })

@@ -107,5 +107,5 @@ app.get('/info', (request, response) => {
 
 })
 
-app.listen(process.env.PORT || 5000))
+app.listen(process.env.PORT || 5000)
 console.log(`Server running on port ${5000}`)

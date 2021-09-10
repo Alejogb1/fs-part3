@@ -29,7 +29,7 @@ let persons = [
 ]
 
 
-
+app.use(express.static('build'))
 
 app.get("/", (req, res) => {
 })

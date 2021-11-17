@@ -39,10 +39,13 @@ mongoose.connect(url);
 const noteSchema = new mongoose.Schema({
   name: {
     type: String,
-    minlength: 2,
+    minlength: 3,
     required: true,
   },
-  number: Number,
+  number: {
+    type: String,
+    minlength: 8,
+  },
 });
 
 noteSchema.set("toJSON", {

@@ -30,7 +30,6 @@ let persons = [
 app.use(express.static("build"));
 
 const mongoose = require("mongoose");
-const { response } = require("express");
 
 const url = `mongodb+srv://alejogb:${process.argv[2]}@cluster0.yvdek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
@@ -128,6 +127,7 @@ app.delete("/api/persons/:id", (request, response) => {
       return toString(person.id) === toString(id);
     });
     response.status(204).end();
+    return person;
   } catch (error) {
     console.log("ERROR", error);
   }
@@ -161,7 +161,7 @@ app.post("/api/persons", (request, response, next) => {
   function hasDuplicates(newElement) {
     let object = persons.find((element) => element.name === newElement);
     console.log("OBJECT ", object);
-    if (object == undefined) {
+    if (object === undefined) {
       return false;
     }
     if (Object.keys(object).length !== 0) {
